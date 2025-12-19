@@ -27,7 +27,7 @@
         <p class="mb-0">
           Selamat Datang,
           <b>{{ Auth::user()->nama }}</b>
-          pada aplikasi <b>BeautyCare</b> dengan hak akses sebagai 
+          pada aplikasi <b>BeautyCare</b> dengan hak akses sebagai anda
           <b>
             @if (Auth::user()->role == 1)
               Admin
