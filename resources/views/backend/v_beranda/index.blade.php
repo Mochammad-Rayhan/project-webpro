@@ -17,17 +17,17 @@
     <div class="card-body d-flex align-items-center gap-3 ms-4">
 
       {{-- FOTO USER DARI STORAGE --}}
-      <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" 
-           alt="User Photo" 
+      <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}"
+           alt="User Photo"
            class="profile-img shadow-sm">
 
       {{-- TEKS SELAMAT DATANG --}}
       <div>
         <h3 class="fw-bold text-pink mb-2">{{ $judul }}</h3>
         <p class="mb-0">
-          Selamat Datang, 
-          <b>{{ Auth::user()->nama }}</b> 
-          pada aplikasi <b>BeautyCare</b> dengan hak akses sebagai anda
+          Selamat Datang,
+          <b>{{ Auth::user()->nama }}</b>
+          pada aplikasi <b>BeautyCare</b> dengan hak akses sebagai 
           <b>
             @if (Auth::user()->role == 1)
               Admin
