@@ -21,6 +21,7 @@ use App\Http\Controllers\BarangkeluarController;
 |
 */
 
+
 Route::get('/', function () {
     // return view('welcome');
     return redirect()->route('backend.login');
