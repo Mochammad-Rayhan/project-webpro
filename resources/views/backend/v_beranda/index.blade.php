@@ -48,49 +48,45 @@
     <div class="row g-4">
         <!-- Stok Produk -->
         <div class="col-6 col-md-3">
-            <div class="shadow-sm p-3 text-dark"
-                 style="background:#e884a3; border-radius: 10px; height:200px; position:relative;">
-                <span class="fw-bold" style="font-size:18px; position:absolute; top:15px; left:30px;">Stok Produk</span>
-                <h2 class="fw-bold text-center"
-                  style="margin-top:63px; font-size:50px;">
-                  {{ $totalStok }}<span class="fs-6 ms-0">Pcs</span>
-                </h2>
+            <div class="shadow-sm p-3 text-dark"style="background:#e884a3; border-radius: 10px; height:200px; position:relative;">
+              <div class="position-absolute d-flex justify-content-between align-items-center" style="top: 20px; left: 20px; right: 20px;">
+                <span class="fw-bold" style="font-size:20px;">Stok Produk</span>
+                <i data-feather="box" class="align-items-center" style="width: 30px; height: 30px; color: #000;"></i>
+              </div>
+              <h2 class="fw-bold text-center"style="margin-top:60px; font-size:50px;">{{ $totalStok }}<span class="fs-6 ms-1">Pcs</span></h2>
             </div>
         </div>
 
         <!-- Barang Masuk -->
         <div class="col-6 col-md-3">
-            <div class="shadow-sm p-3 text-dark"
-                 style="background:#f3b5c7; border-radius: 10px; height:200px; position:relative;">
-                <span class="fw-bold" style="font-size:18px; position:absolute; top:15px; left:30px;">Barang Masuk</span>
-                <h2 class="fw-bold text-center"
-                  style="margin-top:63px; font-size:50px;">
-                  {{ $totalMasuk }}<span class="fs-6 ms-0">Pcs</span>
-                </h2>
+            <div class="shadow-sm p-3 text-dark"style="background:#f3b5c7; border-radius: 10px; height:200px; position:relative;">
+              <div class="position-absolute d-flex justify-content-between align-items-center" style="top: 20px; left: 20px; right: 20px;">
+                <span class="fw-bold" style="font-size:20px;">Barang Masuk</span>
+                <i data-feather="chevrons-up" class="align-items-center" style="width: 30px; height: 30px; color: #00BC71;"></i>
+              </div>
+              <h2 class="fw-bold text-center"style="margin-top:60px; font-size:50px;">{{ $totalMasuk }}<span class="fs-6 ms-0">Pcs</span></h2>
             </div>
         </div>
 
         <!-- Barang Keluar -->
         <div class="col-6 col-md-3">
-            <div class="shadow-sm p-3 text-dark"
-                 style="background:#f8cddd; border-radius: 10px; height:200px; position:relative;">
-                <span class="fw-bold" style="font-size:18px; position:absolute; top:15px; left:30px;">Barang Keluar</span>
-                <h2 class="fw-bold text-center"
-                  style="margin-top:63px; font-size:50px;">
-                  {{ $totalKeluar }}<span class="fs-6 ms-0">Pcs</span>
-                </h2>
+            <div class="shadow-sm p-3 text-dark" style="background:#f8cddd; border-radius: 10px; height:200px; position:relative;">
+              <div class="position-absolute d-flex justify-content-between align-items-center" style="top: 20px; left: 20px; right: 20px;">
+                <span class="fw-bold" style="font-size:20px;">Barang Keluar</span>
+                <i data-feather="chevrons-down" class="align-items-center" style="width: 30px; height: 30px; color: #FF1C26;"></i>
+              </div>
+              <h2 class="fw-bold text-center"style="margin-top:63px; font-size:50px;">{{ $totalKeluar }}<span class="fs-6 ms-0">Pcs</span></h2>
             </div>
         </div>
 
         <!-- Produk Sedikit -->
         <div class="col-6 col-md-3">
-            <div class="shadow-sm p-3 text-light"
-                 style="background:#a83a69; border-radius: 10px; height:200px; position:relative;">
-                <span class="fw-bold" style="font-size:18px; position:absolute; top:15px; left:15px;">Produk Sedikit</span>
-                <h2 class="fw-bold text-center"
-                  style="margin-top:70px; font-size:23px;">
-                  {{ $produkSedikit->nama_produk ?? 'Tidak ada data' }}
-                </h2>
+            <div class="shadow-sm p-3 text-light" style="background:#a83a69; border-radius: 10px; height:200px; position:relative;">
+               <div class="position-absolute d-flex justify-content-between align-items-center" style="top: 20px; left: 20px; right: 20px;">
+                <span class="fw-bold" style="font-size:20px;">Produk Sedikit</span>
+                <i data-feather="x-circle" class="align-items-center" style="width: 30px; height: 30px; color: #FFF;"></i>
+              </div>
+              <h2 class="fw-bold text-center"style="margin-top:55px; font-size:23px;">{{ $produkSedikit->nama_produk ?? 'Tidak ada data' }}</h2>
                 <p class="text-center fst-italic fs-6">Stok {{$produkSedikit->stok}}</p>
             </div>
         </div>
