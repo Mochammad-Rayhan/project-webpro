@@ -57,6 +57,7 @@ class ProdukController extends Controller
         $validateData = $request->validate([
             'kode' => 'required',
             'nama_produk' => 'required|max:100|unique:produk',
+            'harga_satuan' => 'required|numeric|min:0',
             // 'stok' => 'required|min:1' ,
             'tanggal_masuk' => 'required' ,
             'kadaluarsa' => 'required'
@@ -97,6 +98,7 @@ class ProdukController extends Controller
         $rules = [
             'kode' => 'required',
             'nama_produk' => 'required|max:100',
+            'harga_satuan' => 'required|numeric|min:0',
             // 'stok' => 'required|min:1' ,
             'tanggal_masuk' => 'required' ,
             'kadaluarsa' => 'required'

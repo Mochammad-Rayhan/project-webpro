@@ -50,6 +50,19 @@
                     <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
                   @enderror
                 </div>
+                
+                <div class="form-group mt-3 mb-2">
+                  <label class="fw-bold">Harga Satuan</label>
+                  <input 
+                    type="number" 
+                    name="harga_satuan" 
+                    value="{{ old('harga_satuan' , $edit->harga_satuan) }}" 
+                    class="form-control @error('harga_satuan') is-invalid @enderror" 
+                    placeholder="Masukkan harga satuan">
+                  @error('harga_satuan')
+                    <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
+                  @enderror
+                </div>
 
                 <div class="form-group mt-3">
                   <label class="fw-bold mb-2">Stok Produk</label>
