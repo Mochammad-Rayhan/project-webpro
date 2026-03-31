@@ -12,18 +12,17 @@
     </style>
 </head>
 <body>
-    <nav class="navbar fixed-top navbar-expand-lg bg-pink">
+    <nav class="navbar fixed-top navbar-expand-lg py-2 bg-pink">
         <div class="container">
-            <a class="navbar-brand text-white text-bold" href="#">Beautycare</a>
+            <a class="navbar-brand text-white text-bold fs-1 fw-bold" href="#">Beautycare</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="collapse navbar-collapse justify-content-center text-white" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="#">Features</a>
-                    <a class="nav-link" href="#">Pricing</a>
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    <a class="nav-link text-white fs-5 ms-4 active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#">Features</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#">Pricing</a>
                 </div>
             </div>
         </div>
