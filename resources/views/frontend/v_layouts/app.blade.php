@@ -13,16 +13,31 @@
 </head>
 <body>
     <nav class="navbar fixed-top navbar-expand-lg py-2 bg-pink">
-        <div class="container">
-            <a class="navbar-brand text-white text-bold fs-1 fw-bold" href="#">Beautycare</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="container d-flex align-items-center justify-content-between">
+
+            <!-- KIRI (Logo) -->
+            <a class="navbar-brand text-white fs-3 fw-bold" href="#">Beautycare</a>
+
+            <!-- BUTTON TOGGLER (mobile) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-center text-white" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link text-white fs-5 ms-4 active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link text-white fs-5 ms-4" href="#">Features</a>
-                    <a class="nav-link text-white fs-5 ms-4" href="#">Pricing</a>
+
+            <!-- TENGAH + KANAN -->
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+                <!-- TENGAH (Menu) -->
+                <div class="navbar-nav mx-auto">
+                    <a class="nav-link text-white fs-5 active" href="#">Home</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#">About Us</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#">Produk</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#">Testimoni</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#">Contact</a>
+                </div>
+
+                <!-- KANAN (Button Login) -->
+                <div>
+                    <a href="#" class="btn btn-light fw-semibold">Login</a>
                 </div>
             </div>
         </div>
