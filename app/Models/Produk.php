@@ -12,6 +12,14 @@ class Produk extends Model
     protected $primaryKey = 'id_produk';
     protected $guarded = ['id'];
     protected $keyType = 'int';
+    protected $fillable = [
+        'kode',
+        'nama_produk',
+        'harga_satuan',
+        'stok',
+        'tanggal_masuk',
+        'kadaluarsa'
+    ];
 
     public function kategori()
     {
