@@ -24,9 +24,13 @@ use App\Http\Controllers\BarangkeluarController;
 
 Route::get('/', function () {
     // return view('welcome');
-    return redirect()->route('backend.login');
+    return redirect()->route('frontend.v_layouts');
      
 });
+
+Route::get('/frontend', function () {
+    return view('frontend.v_layouts.app');
+})->name('frontend.v_layouts');
 
 Route::get('backend/beranda' , [BerandaController::class , 'berandaBackend'])->name('backend.beranda');
 Route::get('backend/login' , [LoginController::class , 'loginBackend'])->name('backend.login');
