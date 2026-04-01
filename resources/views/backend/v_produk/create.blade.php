@@ -25,6 +25,18 @@
             <h4 class="card-title text-pink mb-4 fw-bold">{{ $judul }}</h4>
             <div class="row d-flex flex-column">
               <div class="col">
+                <div class="form-group mt-3 mb-2">
+                  <label class="fw-bold">Gambar Produk</label>
+                  <input 
+                    type="file" 
+                    name="image" 
+                    value="{{ old('iamge') }}" 
+                    class="form-control @error('image') is-invalid @enderror" 
+                    placeholder="Masukkan Nama Produk">
+                  @error('image')
+                    <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
+                  @enderror
+                </div>
                 <div class="form-group mt-3">
                   <label class="fw-bold mb-2">Kode Produk</label>
                   <select name="kode" class="form-control @error('role') is-invalid @enderror">
@@ -97,6 +109,12 @@
                     class="form-control @error('kadaluarsa') is-invalid @enderror" 
                     placeholder="Masukkan Password">
                   @error('kadaluarsa')
+                    <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
+                  @enderror
+                </div>
+                  <label class="fw-bold mb-2">Deskripsi Produk</label>
+                  <textarea name="description" class="form-control"></textarea>
+                  @error('description')
                     <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
                   @enderror
                 </div>
