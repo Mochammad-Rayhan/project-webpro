@@ -26,6 +26,29 @@
             <h4 class="card-title text-pink mb-4 fw-bold">{{ $judul }}</h4>
             <div class="row d-flex flex-column">
               <div class="col">
+                <div class="form-group mt-3">
+                  <label class="fw-bold mb-2">Gambar Produk</label>
+
+                  <!-- tampilkan gambar lama -->
+                  @if ($edit->image)
+                    <div class="mb-2">
+                      <img src="{{ asset('storage/' . $edit->image) }}" width="120" class="rounded shadow-sm">
+                    </div>
+                  @endif
+
+                  <input 
+                    type="file" 
+                    name="image" 
+                    class="form-control @error('image') is-invalid @enderror"
+                    onchange="previewImage(event)">
+
+                  @error('image')
+                    <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
+                  @enderror
+
+                  <!-- preview gambar baru -->
+                  <img id="preview" class="mt-3" width="120" style="display:none;">
+                </div>
                 <div class="form-group mt-1">
                   <label class="fw-bold mb-2">Kode Produk</label>
                   <select name="kode" class="form-control @error('kode') is-invalid @enderror">
@@ -103,6 +126,18 @@
                     <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
                   @enderror
                 </div>
+                <div class="form-group mt-3">
+                  <label class="fw-bold mb-2">Deskripsi Produk</label>
+                  <textarea 
+                    name="description" 
+                    class="form-control @error('description') is-invalid @enderror"
+                    rows="3"
+                  >{{ old('description', $edit->description) }}</textarea>
+
+                  @error('description')
+                    <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
+                  @enderror
+                </div>
               </div>
             </div>
           </div>
@@ -119,5 +154,17 @@
     </div>
   </div>
 </div>
+
+<script>
+  function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('preview');
+        output.src = reader.result;
+        output.style.display = 'block';
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>
 <!-- contentAkhir -->
 @endsection

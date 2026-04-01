@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -60,10 +61,16 @@ class ProdukController extends Controller
             'harga_satuan' => 'required|numeric|min:0',
             // 'stok' => 'required|min:1' ,
             'tanggal_masuk' => 'required' ,
-            'kadaluarsa' => 'required'
+            'kadaluarsa' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'description' => 'nullable'
         ]);
 
         $validateData['stok'] = 0;
+        // upload gambar
+        if ($request->hasFile('image')) {
+            $validateData['image'] = $request->file('image')->store('produk', 'public');
+        }
         Produk::create($validateData);
         return redirect()->route('backend.produk.index')->with('success' , "data berhasil tersimpan");
     }
@@ -101,11 +108,31 @@ class ProdukController extends Controller
             'harga_satuan' => 'required|numeric|min:0',
             // 'stok' => 'required|min:1' ,
             'tanggal_masuk' => 'required' ,
-            'kadaluarsa' => 'required'
+            'kadaluarsa' => 'required',
+            'image' => 'nullable|image',
+            'description' => 'nullable'
         ];
 
         $validateData = $request->validate($rules);
-        Produk::where('id_produk' , $id)->update($validateData);
+        $produk = Produk::findOrFail($id);
+
+        // cek kalau upload gambar baru
+        if ($request->hasFile('image')) {
+            // hapus gambar lama
+            if ($produk->image) {
+                Storage::disk('public')->delete($produk->image);
+            }
+            // simpan gambar baru
+            $validateData['image'] = $request->file('image')->store('produk', 'public');
+        }
+        // if ($request->hasFile('image')) {
+        //     $validateData['image'] = $request->file('image')->store('produk', 'public');
+        // }
+
+        // Produk::where('id_produk' , $id)->update($validateData);
+        $validateData['description'] = $request->description;
+        $produk->update($validateData);
+
         return redirect()->route('backend.produk.index')->with('success' , 'Data Berhasil diperbaharui');
     }
 
