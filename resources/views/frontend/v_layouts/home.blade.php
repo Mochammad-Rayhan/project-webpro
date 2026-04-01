@@ -78,41 +78,31 @@
             <!-- Produk -->
             <div class="row mt-5">
                 <!-- Produk 1 -->
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1686831889593-d49e5cf9300d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="produk">
-                        <div class="card-body text-start">
-                            <h5 class="fw-bold">Lipstick Matte</h5>
-                            <p class="text-muted small">Warna tahan lama dan nyaman digunakan sepanjang hari.</p>
-                            <p class="fw-semibold">Rp 75.000</p>
+                 @foreach ($products as $product)
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm">
+                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="produk">
+                            <div class="card-body text-start">
+                                <h5 class="fw-bold fs-4">{{ $product->nama_produk }}</h5>
+                                <p class="text-muted small">{{ Str::limit($product->description, 150) }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fw-semibold">Rp {{ number_format($product->harga_satuan, 0, ',', '.') }}</p>
+                                    <p class="text-muted small">{{ $product->kategori->nama_kategori }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Produk 2 -->
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1686121544103-f1bc403bd6da?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="produk">
-                        <div class="card-body text-start">
-                            <h5 class="fw-bold">Serum Wajah</h5>
-                            <p class="text-muted small">Membantu mencerahkan dan melembapkan kulit.</p>
-                            <p class="fw-semibold">Rp 120.000</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produk 3 -->
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1627384113858-ce93ff568d1f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="produk">
-                        <div class="card-body text-start">
-                            <h5 class="fw-bold">Foundation Glow</h5>
-                            <p class="text-muted small">Memberikan hasil makeup natural dan glowing.</p>
-                            <p class="fw-semibold">Rp 95.000</p>
-                        </div>
-                    </div>
-                </div>
+                 @endforeach
             </div>
         </div>
     </section>
+
+    <!-- About Us -->
+    <section class="section-padding" style="background-color: #FFBBE1;">
+        <h1 class="text-center text-white fw-bold">About Us</h1>
+    </section>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\BarangkeluarController;
+use App\Http\Controllers\frontend\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +23,17 @@ use App\Http\Controllers\BarangkeluarController;
 */
 
 
-Route::get('/', function () {
-    // return view('welcome');
-    return redirect()->route('frontend.v_layouts');
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return redirect()->route('frontend.v_layouts');
      
-});
+// });
 
-Route::get('/frontend', function () {
-    return view('frontend.v_layouts.app');
-})->name('frontend.v_layouts');
+// Route::get('/frontend', function () {
+//     return view('frontend.v_layouts.app');
+// })->name('frontend.v_layouts');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('backend/beranda' , [BerandaController::class , 'berandaBackend'])->name('backend.beranda');
 Route::get('backend/login' , [LoginController::class , 'loginBackend'])->name('backend.login');
