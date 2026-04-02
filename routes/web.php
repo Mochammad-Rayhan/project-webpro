@@ -34,6 +34,7 @@ use App\Http\Controllers\frontend\HomeController;
 // })->name('frontend.v_layouts');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'producthome'])->name('home');
 
 Route::get('backend/beranda' , [BerandaController::class , 'berandaBackend'])->name('backend.beranda');
 Route::get('backend/login' , [LoginController::class , 'loginBackend'])->name('backend.login');
