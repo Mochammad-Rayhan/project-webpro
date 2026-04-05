@@ -100,6 +100,11 @@
 
                     <button class="btn btn-pink w-100 py-2 mt-2">Login</button>
                 </form>
+                <div class="text-center my-3">atau</div>
+                <a href="{{ route('google.login') }}" class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-2">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20">
+                    Continue with Google
+                </a>
             </div>
         </div>
     </div>
