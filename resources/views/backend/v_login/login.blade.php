@@ -99,13 +99,9 @@
                     </div>
 
                     <button class="btn btn-pink w-100 py-2 mt-2">Login</button>
-
                 </form>
-
             </div>
-
         </div>
-
     </div>
 </div>
 
