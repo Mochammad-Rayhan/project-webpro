@@ -9,6 +9,8 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\BarangkeluarController;
+use App\Http\Controllers\GoogleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +42,7 @@ Route::resource('backend/produk' , ProdukController::class , ['as' => 'backend']
 Route::resource('backend/supplier' , SupplierController::class , ['as' => 'backend'])->middleware('auth');
 Route::resource('backend/masuk' , BarangmasukController::class , ['as' => 'backend'])->middleware('auth');
 Route::resource('backend/keluar' , BarangkeluarController::class , ['as' => 'backend'])->middleware('auth');
+
+// Google Cloud Console
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
