@@ -11,12 +11,9 @@ class HomeController extends Controller
     public function index()
     {
         $products = Produk::orderBy('updated_at', 'desc')->take(3)->get();
-        return view('frontend.v_layouts.home', compact('products'));
+        $produkTerbaru = Produk::orderBy('updated_at', 'desc')->take(4)->get();
+
+        return view('frontend.v_layouts.home', compact('products', 'produkTerbaru'));
     }
 
-    // public function producthome()
-    // {
-    //     $productshome = Produk::orderBy('updated_at', 'desc')->take(4)->get();
-    //     return view('frontend.v_layouts.home', compact('productshome'));
-    // }
 }

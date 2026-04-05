@@ -38,8 +38,41 @@
                 </div>
 
                 <!-- KANAN (Button Login) -->
-                <div>
-                    <a href="{{ route('backend.login') }}" class="btn btn-light fw-semibold">Login</a>
+                <div class="d-flex align-items-center gap-4">
+                    @if(Auth::check())
+                        {{-- ICON CART --}}
+                        <a href="#" class="position-relative text-white fs-4">
+                            <i class="bi bi-cart"></i>
+                            <span style="font-size: 13px;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                1
+                            </span>
+                        </a>
+                        {{-- USER DROPDOWN --}}
+                        <div class="dropdown">
+                            <button class="btn btn-light d-flex align-items-center gap-2 dropdown-toggle" data-bs-toggle="dropdown">
+                                {{-- FOTO PROFIL --}}
+                                <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" 
+                                    alt="user" 
+                                    width="30" 
+                                    height="30" 
+                                    class="rounded-circle">
+                                {{-- NAMA USER --}}
+                                <span>{{ Auth::user()->nama }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Pesanan Saya</a></li>
+                                <li>
+                                    <form action="{{ route('backend.logout') }}" method="POST">
+                                        @csrf
+                                        <button class="dropdown-item text-danger">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <a href="{{ route('backend.login') }}" class="btn btn-light fw-semibold">Login</a>    
+                    @endif
                 </div>
             </div>
         </div>
@@ -79,16 +112,16 @@
             <!-- Produk -->
             <div class="row mt-5">
                 <!-- Produk 1 -->
-                 @foreach ($products as $product)
+                 @foreach ($products as $item)
                     <div class="col-md-4">
                         <div class="card border-0 shadow-sm">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="produk">
+                            <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="produk">
                             <div class="card-body text-start">
-                                <h5 class="fw-bold fs-4">{{ $product->nama_produk }}</h5>
-                                <p class="text-muted small">{{ Str::limit($product->description, 130) }}</p>
+                                <h5 class="fw-bold fs-4">{{ $item->nama_produk }}</h5>
+                                <p class="text-muted small">{{ Str::limit($item->description, 130) }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="fw-semibold">Rp {{ number_format($product->harga_satuan, 0, ',', '.') }}</p>
-                                    <p class="text-black py-1 px-4 text-white rounded-pill bg-pink fw-semibold">{{ $product->kategori->nama_kategori }}</p>
+                                    <p class="fw-semibold">Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</p>
+                                    <p class="text-black py-1 px-4 text-white rounded-pill bg-pink fw-semibold">{{ $item->kategori->nama_kategori }}</p>
                                 </div>
                             </div>
                         </div>
@@ -146,16 +179,16 @@
             <a href="#" class="btn bg-pink text-white btn-sm">See All Products</a>
         </div>
         <div class="row">
-            @foreach ($products as $product)
+            @foreach ($produkTerbaru as $item)
                 <div class="col-md-3 mb-5">
                     <div class="card border-0 shadow-sm h-200">
-                        <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="produk">
+                        <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="produk">
                             <div class="card-body text-start">
-                                <h5 class="fw-bold fs-4 mb-2">{{ $product->nama_produk }}</h5>
-                                <p class="fw-semibold">Rp {{ number_format($product->harga_satuan, 0, ',', '.') }}</p>
-                                <p class="text-muted small mb-0">{{ Str::limit($product->description, 100) }}</p>
+                                <h5 class="fw-bold fs-5 mb-2">{{ $item->nama_produk }}</h5>
+                                <p class="fw-semibold">Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</p>
+                                <p class="text-muted small mb-0">{{ Str::limit($item->description, 100) }}</p>
                                 <!-- <div class="d-flex justify-content-between align-items-center">
-                                    <p class="text-black py-0.8 px-3 mb-4 text-white rounded-pill d-inline-block bg-pink">{{ $product->kategori->nama_kategori }}</p>
+                                    <p class="text-black py-0.8 px-3 mb-4 text-white rounded-pill d-inline-block bg-pink">{{ $item->kategori->nama_kategori }}</p>
                                 </div> -->
                             </div>
                             <div class="d-flex gap-2 p-3">
