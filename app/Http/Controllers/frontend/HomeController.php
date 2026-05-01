@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         $products = Produk::orderBy('updated_at', 'desc')->take(3)->get();
-        $produkTerbaru = Produk::orderBy('updated_at', 'desc')->take(4)->get();
+        $produkTerbaru = Produk::orderBy('updated_at', 'desc')->take(7)->get();
 
         return view('frontend.v_layouts.home', compact('products', 'produkTerbaru'));
     }

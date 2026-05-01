@@ -38,6 +38,7 @@ class GoogleController extends Controller
                     'google_id' => $googleUser->id,
                     'password' => bcrypt('12345678'), // default password
                     'role' => '0',
+                    'foto' => 'default.jpg',
                     'status' => 1,
                     'hp' => '-' // FIX
                 ]);

@@ -1,3 +1,8 @@
+@php
+use Illuminate\Support\Str;
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +14,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .bg-pink {
-        background-color: #f98fae !important; /* pink pastel */
-    }
+            background-color: #f98fae !important; /* pink pastel */
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border-radius: 1.25rem;
+            min-height: 100%;
+            overflow: hidden;
+        }
+        .testimonial-card .card-body {
+            min-height: 350px;
+            padding-top: 3rem !important;
+        }
+        .testimonial-image {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #f98fae;
+            margin-top: -45px;
+            background-color: #ffffff;
+        }
+        .testimonial-quote {
+            color: #5c4a42;
+            line-height: 1.7;
+        }
+        .testimonial-name {
+            color: #6b4a3a;
+        }
     </style>
 </head>
 <body>
@@ -31,8 +62,8 @@
                 <!-- TENGAH (Menu) -->
                 <div class="navbar-nav mx-auto">
                     <a class="nav-link text-white fs-5 active" href="#">Home</a>
-                    <a class="nav-link text-white fs-5 ms-4" href="#">About Us</a>
-                    <a class="nav-link text-white fs-5 ms-4" href="#">Produk</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#about">About Us</a>
+                    <a class="nav-link text-white fs-5 ms-4" href="#produk">Produk</a>
                     <a class="nav-link text-white fs-5 ms-4" href="#">Testimoni</a>
                     <a class="nav-link text-white fs-5 ms-4" href="#">Contact</a>
                 </div>
@@ -41,10 +72,10 @@
                 <div class="d-flex align-items-center gap-4">
                     @if(Auth::check())
                         {{-- ICON CART --}}
-                        <a href="#" class="position-relative text-white fs-4">
+                        <a href="#" class="position-relative text-white fs-4" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
                             <i class="bi bi-cart"></i>
-                            <span style="font-size: 13px;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                1
+                            <span id="cart-count" style="font-size: 13px;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                0
                             </span>
                         </a>
                         {{-- USER DROPDOWN --}}
@@ -53,11 +84,11 @@
                                 {{-- FOTO PROFIL --}}
                                 <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" 
                                     alt="user" 
-                                    width="30" 
-                                    height="30" 
+                                    width="25" 
+                                    height="25" 
                                     class="rounded-circle">
                                 {{-- NAMA USER --}}
-                                <span>{{ Auth::user()->nama }}</span>
+                                <span style="font-size: 13px;">{{ Auth::user()->nama }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -132,7 +163,7 @@
     </section>
 
     <!-- About Us -->
-    <section class="section-padding" style="background-color: #fddae4;">
+    <section class="section-padding" id="about" style="background-color: #fddae4;">
         <!-- <h1 class="text-center text-black fw-bold">About Us</h1> -->
         <div class="container">
         <!-- Judul -->
@@ -173,9 +204,9 @@
     </section>
 
     <!-- Produk -->
-    <section class="section-padding">
+    <section class="section-padding" id="produk">
         <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3 class="fw-bold">Featured Products</h3>
+            <h3 class="fw-bold">Daftar Produk</h3>
             <a href="#" class="btn bg-pink text-white btn-sm">See All Products</a>
         </div>
         <div class="row">
@@ -193,16 +224,19 @@
                             </div>
                             <div class="d-flex gap-2 p-3">
                                 <!-- Detail kecil -->
-                                <button class="btn btn-outline-secondary">
+                                <button 
+                                    class="btn btn-outline-secondary btn-detail"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#productModal"
+                                    data-title="{{ $item->nama_produk }}"
+                                    data-price="Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}"
+                                    data-description="{{ $item->description }}"
+                                    data-image="{{ asset('storage/' . $item->image) }}"
+                                >
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <!-- Cart besar -->
-                                <form action="#" method="POST" class="flex-grow-1">
-                                    @csrf
-                                    <button class="btn bg-pink text-white w-100 fw-semibold">
-                                        + Add to Cart
-                                    </button>
-                                </form>
+                                <button type="button" class="btn bg-pink text-white w-100 fw-semibold add-to-cart" data-id="{{ $item->id_produk }}" data-name="{{ $item->nama_produk }}" data-price="{{ $item->harga_satuan }}" data-image="{{ asset('storage/' . $item->image) }}"> + Add to Cart</button>
                             </div>
                     </div>
                 </div>
@@ -210,7 +244,231 @@
         </div>
     </section>
 
+    <!-- Testimoni -->
 
+    <!-- Modalbox -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                    <div class="col-md-5">
+                        <img id="modalImage" src="" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-7">
+                        <h4 id="modalTitle"></h4>
+                        <p id="modalPrice" class="fw-semibold"></p>
+                        <p id="modalDescription"></p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- sidebar -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar">
+        <div class="offcanvas-header">
+            <h5>Cart</h5>
+            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" id="cartContent">
+            <p>Belum ada barang</p>
+        </div>
+    </div>
+
+<!-- Javascript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+</script>
+
+<!-- Modalbox js -->
+<script>
+    document.querySelectorAll('.btn-detail').forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('modalTitle').innerText = this.dataset.title;
+            document.getElementById('modalPrice').innerText = this.dataset.price;
+            document.getElementById('modalDescription').innerText = this.dataset.description;
+            document.getElementById('modalImage').src = this.dataset.image;
+    });
+
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!isLoggedIn) {
+                    window.location.href = "{{ route('backend.login') }}";
+                    return;
+                }
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        id: this.dataset.id,
+                        name: this.dataset.name,
+                        price: this.dataset.price,
+                        image: this.dataset.image
+                    })
+                })
+                .then(res => res.json())
+                .then(() => {
+                    loadCart();
+
+                    // BONUS: auto buka sidebar
+                    let sidebar = new bootstrap.Offcanvas(document.getElementById('cartSidebar'));
+                    sidebar.show();
+                });
+
+            });
+        });
+
+    });
+
+    // =======================
+
+    function loadCart() {
+        fetch('/cart/data')
+        .then(res => res.json())
+        .then(data => {
+            let html = '';
+            let totalQty = 0;
+            let total = 0;
+
+            if (Object.keys(data).length === 0) {
+                html = '<p>Belum ada barang</p>';
+            } else {
+                for (let id in data) {
+                    let item = data[id];
+                    let subtotal = item.price * item.qty;
+
+                    total += subtotal;
+                    totalQty += item.qty;
+
+                    html += `
+                        <div class="d-flex mb-3">
+                            <img src="${item.image}" width="60" height="60" class="me-2 rounded-circle">
+                            <div>
+                                <h6>${item.name}</h6>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQty(${id}, 'minus')">-</button>
+                                    <span>${item.qty}</span>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQty(${id}, 'plus')">+</button>
+                                </div>
+                                <p class="mb-0">Rp ${item.price}</p>
+                                <strong>Rp ${subtotal}</strong>
+                            </div>
+                            <button onclick="removeItem(${id})" class="btn btn-sm btn-danger ms-auto">🗑</button>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <hr>
+                    <h5>Total: Rp ${total}</h5>
+                    <button class="btn btn-success w-100 mt-3 btn-checkout">Checkout</button>
+                `;
+            }
+
+            document.getElementById('cartContent').innerHTML = html;
+            document.getElementById('cart-count').innerText = totalQty;
+            
+            document.querySelectorAll('.btn-checkout').forEach(btn => {
+                btn.addEventListener('click', checkout);
+            });
+        });
+    }
+
+    // =======================
+
+    function removeItem(id) {
+        fetch('/cart/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ id: id })
+        }).then(() => loadCart());
+    }
+
+    function updateQty(id, action) {
+        fetch('/cart/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                id: id,
+                action: action
+            })
+        }).then(() => loadCart());
+    }
+
+   function checkout() {
+        if (!isLoggedIn) {
+            alert('Silakan login terlebih dahulu!');
+            window.location.href = "{{ route('backend.login') }}";
+            return;
+        }
+
+        fetch('/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(res => {
+            // kalau redirect (belum login), stop
+            if (!res.ok) {
+                throw new Error('Harus login');
+            }
+            return res.json();
+        })
+        .then(data => {
+            window.snap.pay(data.snap_token, {
+                onSuccess: function(result) {
+                console.log(result);
+
+                // redirect ke halaman sukses
+                window.location.href = "/checkout/success";
+            },
+            onPending: function(result) {
+                console.log(result);
+            },
+            onError: function(result) {
+                console.log(result);
+                alert("Pembayaran gagal!");
+            },
+            onClose: function() {
+                console.log('User menutup popup tanpa bayar');
+            }
+            });
+        })
+        .catch(() => {
+            window.location.href = "{{ route('backend.login') }}";
+        });
+    }
+    // load awal
+    loadCart();
+</script>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" 
+data-client-key="SB-Mid-client-2Qab9asBGixDn0UK"></script>
+
+
+
 </body>
 </html>
