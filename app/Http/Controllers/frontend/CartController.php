@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Midtrans\Notification;
 use Midtrans\Config;
 use Midtrans\Snap;
 
@@ -91,9 +92,17 @@ class CartController extends Controller
             $total += $item['price'] * $item['qty'];
         }
 
+        $orderId = 'ORDER-' . rand();
+        transaction::create([
+            'order_id' => $orderId,
+            'id_admin' => $user->id_admin,
+            'total' => $total,
+            'status' => 'pending',
+        ]);
+
         $transaction = [
             'transaction_details' => [
-                'order_id' => 'ORDER-' . rand(),
+                'order_id' => $orderId,
                 'gross_amount' => $total,
             ],
             'customer_details' => [
@@ -116,4 +125,25 @@ class CartController extends Controller
     //     $cart = session('cart', []);
     //     return view('frontend.cart_sidebar', compact('cart'));
     // }
+
+    public function callback(Request $request)
+    {
+        $notif = new Notification();
+        $transaction = $notif->transaction_status;
+        $order_id = $notif->order_id;
+
+        $data = Transaction::where('order_id', $order_id)->first();
+
+        if (!$data) return;
+        if ($transaction == 'settlement') {
+            $data->status = 'success';
+            // 🔥 HAPUS CART
+            session()->forget('cart');
+        } elseif ($transaction == 'pending') {
+            $data->status = 'pending';
+        } else {
+            $data->status = 'failed';
+        }
+        $data->save();
+    }
 }

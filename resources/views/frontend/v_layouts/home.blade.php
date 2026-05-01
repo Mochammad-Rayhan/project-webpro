@@ -440,8 +440,12 @@ use Illuminate\Support\Str;
         .then(data => {
             window.snap.pay(data.snap_token, {
                 onSuccess: function(result) {
-                console.log(result);
-
+                fetch('/cart/clear', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
                 // redirect ke halaman sukses
                 window.location.href = "/checkout/success";
             },

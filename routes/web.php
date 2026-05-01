@@ -63,3 +63,13 @@ Route::post('/cart/update', [CartController::class, 'update'])->name('cart.updat
 
 Route::post('/checkout', [CartController::class, 'checkout'])->middleware('auth');
 Route::post('/cart/add', [CartController::class, 'add'])->middleware('auth');
+Route::post('/midtrans/callback', [CartController::class, 'callback']);
+
+// Success page
+Route::post('/cart/clear', function() {
+    session()->forget('cart');
+    return response()->json(['success' => true]);
+});
+Route::get('/checkout/success', function() {
+    return view('success');
+});
