@@ -13,6 +13,10 @@ use Illuminate\Support\Str;
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
         .bg-pink {
             background-color: #f98fae !important; /* pink pastel */
         }
@@ -375,8 +379,26 @@ use Illuminate\Support\Str;
 
                 html += `
                     <hr>
-                    <h5>Total: Rp ${total}</h5>
-                    <button class="btn btn-success w-100 mt-3 btn-checkout">Checkout</button>
+                    <!-- PILIH PENGIRIMAN -->
+                    <div class="card p-2 mb-2">
+                        <small class="fw-bold">Pilih Pengiriman</small>
+                        <select id="city" class="form-control form-control-sm mb-2">
+                            <option value="114">Jakarta</option>
+                            <option value="501">Yogyakarta</option>
+                            <option value="419">Bandung</option>
+                        </select>
+                        <select id="courier" class="form-control form-control-sm mb-2">
+                            <option value="jne">JNE</option>
+                            <option value="pos">POS</option>
+                            <option value="tiki">TIKI</option>
+                        </select>
+                        <button onclick="cekOngkir(${total})" class="btn btn-dark btn-sm w-100">
+                            Cek Ongkir
+                        </button>
+                        <div id="ongkir-result" class="mt-2"></div>
+                    </div>
+                    <h5>Total: Rp <span id="total">${total}</span></h5>
+                    <button class="btn btn-success w-100 mt-2 btn-checkout">Checkout</button>
                 `;
             }
 
@@ -416,7 +438,7 @@ use Illuminate\Support\Str;
         }).then(() => loadCart());
     }
 
-   function checkout() {
+    function checkout() {
         if (!isLoggedIn) {
             alert('Silakan login terlebih dahulu!');
             window.location.href = "{{ route('backend.login') }}";
@@ -425,10 +447,14 @@ use Illuminate\Support\Str;
 
         fetch('/checkout', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
+            },
+            body: JSON.stringify({
+                ongkir: selectedOngkir
+            })
         })
         .then(res => {
             // kalau redirect (belum login), stop
@@ -447,7 +473,7 @@ use Illuminate\Support\Str;
                     }
                 });
                 // redirect ke halaman sukses
-                window.location.href = "/checkout/success";
+                window.location.href = "/checkout/success/" + result.order_id;
             },
             onPending: function(result) {
                 console.log(result);
@@ -464,6 +490,83 @@ use Illuminate\Support\Str;
         .catch(() => {
             window.location.href = "{{ route('backend.login') }}";
         });
+    }
+    function cekOngkir(totalBarang) {
+        let city = document.getElementById('city').value;
+        let courier = document.getElementById('courier').value;
+
+        console.log("REQUEST:", city, courier);
+
+        fetch('/cek-ongkir', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ city, courier })
+        })
+        .then(async res => {
+            console.log("STATUS:", res.status);
+
+            let text = await res.text(); // 🔥 ambil raw response dulu
+
+            try {
+                return JSON.parse(text); // coba parse ke JSON
+            } catch (e) {
+                console.error("Bukan JSON:", text);
+                throw new Error("Response bukan JSON (server error)");
+            }
+        })
+        .then(data => {
+            console.log("RESPONSE:", data);
+
+            // 🔥 HANDLE ERROR DARI BACKEND
+            if (data.error) {
+                alert("ERROR: " + data.error);
+                return;
+            }
+
+            if (!Array.isArray(data) || data.length === 0) {
+                alert("Ongkir tidak tersedia");
+                return;
+            }
+
+            let html = '';
+
+            data.forEach(item => {
+                if (!item.cost || item.cost.length === 0) return;
+
+                let harga = item.cost;
+                let etd = item.etd;
+
+                html += `
+                    <div class="border p-2 mb-2 rounded">
+                        <b>${item.service}</b><br>
+                        Rp ${harga} (${etd} hari)
+                        <button onclick="pilihOngkir(${harga}, ${totalBarang})" 
+                            class="btn btn-sm btn-success float-end">
+                            Pilih
+                        </button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('ongkir-result').innerHTML = html;
+        })
+        .catch(err => {
+            console.error("FETCH ERROR:", err);
+            alert("Gagal ambil ongkir! Cek koneksi / API");
+        });
+    }
+    function pilihOngkir(ongkir, totalBarang) {
+        selectedOngkir = ongkir;
+        let total = totalBarang + ongkir;
+        document.getElementById('total').innerText = total;
+        document.getElementById('ongkir-result').innerHTML += `
+            <div class="alert alert-success mt-2 p-2">
+                Ongkir dipilih: Rp ${ongkir}
+            </div>
+        `;
     }
     // load awal
     loadCart();

@@ -56,7 +56,7 @@ Route::resource('backend/keluar' , BarangkeluarController::class , ['as' => 'bac
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+// Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/data', [CartController::class, 'getCart'])->name('cart.data');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
@@ -70,6 +70,10 @@ Route::post('/cart/clear', function() {
     session()->forget('cart');
     return response()->json(['success' => true]);
 });
-Route::get('/checkout/success', function() {
-    return view('success');
-});
+// Route::get('/checkout/success', function() {
+//     return view('success');
+// });
+Route::get('/checkout/success/{order_id}', [CartController::class, 'success'])->name('checkout.success')->middleware('auth');
+
+// Raja Ongkir
+Route::post('/cek-ongkir', [CartController::class, 'cekOngkir']);

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Midtrans\Notification;
 use Midtrans\Config;
@@ -67,7 +70,7 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
         // CONFIG MIDTRANS
         Config::$serverKey = config('midtrans.server_key');
@@ -77,6 +80,10 @@ class CartController extends Controller
 
         $cart = session('cart', []);
         $user = auth()->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
 
         $items = [];
         $total = 0;
@@ -92,18 +99,50 @@ class CartController extends Controller
             $total += $item['price'] * $item['qty'];
         }
 
+        $ongkir = $request->ongkir ?? 0;
+        if ($ongkir > 0) {
+            $items[] = [
+                'id' => 'ONGKIR',
+                'price' => $ongkir,
+                'quantity' => 1,
+                'name' => 'Biaya Pengiriman',
+            ];
+        }
+        $grandTotal = $total + $ongkir;
+
         $orderId = 'ORDER-' . rand();
-        transaction::create([
+        $transaction = Transaction::create([
             'order_id' => $orderId,
             'id_admin' => $user->id_admin,
-            'total' => $total,
+            'total' => $grandTotal,
             'status' => 'pending',
         ]);
 
-        $transaction = [
+        foreach ($cart as $item) {
+            TransactionDetail::create([
+                'transaction_id' => $transaction->id,
+                'product_name' => $item['name'],
+                'price' => $item['price'],
+                'qty' => $item['qty'],
+                'subtotal' => $item['price'] * $item['qty'],
+            ]);
+        }
+
+        // (opsional tapi bagus) simpan ongkir juga
+        if ($ongkir > 0) {
+            TransactionDetail::create([
+                'transaction_id' => $transaction->id,
+                'product_name' => 'Biaya Pengiriman',
+                'price' => $ongkir,
+                'qty' => 1,
+                'subtotal' => $ongkir,
+            ]);
+        }
+
+        $payload = [
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => $total,
+                'gross_amount' => $grandTotal,
             ],
             'customer_details' => [
                 'first_name' => $user->nama,
@@ -113,7 +152,7 @@ class CartController extends Controller
             'item_details' => $items
         ];
 
-        $snapToken = Snap::getSnapToken($transaction);
+        $snapToken = Snap::getSnapToken($payload);
 
         return response()->json([
             'snap_token' => $snapToken
@@ -145,5 +184,60 @@ class CartController extends Controller
             $data->status = 'failed';
         }
         $data->save();
+    }
+
+    public function success($order_id)
+    {
+        $transaction = Transaction::with('details')
+            ->where('order_id', $order_id)
+            ->firstOrFail();
+
+        return view('frontend.success', compact('transaction'));
+    }
+
+    public function cekOngkir(Request $request)
+    {
+        try {
+            $response = Http::asForm()->withHeaders([
+                'key' => env('RAJAONGKIR_API_KEY')
+            ])->post('https://rajaongkir.komerce.id/api/v1/calculate/district/domestic-cost', [
+                'origin' => 501,
+                'destination' => $request->city,
+                'weight' => 1000,
+                'courier' => $request->courier
+            ]);
+            
+            $result = $response->json();
+            // 🔥 DEBUG JIKA ERROR
+            if ($response->failed()) {
+                return response()->json([
+                    'error' => 'API gagal',
+                    'detail' => $result
+                ], 500);
+            }
+
+            return response()->json($result['data']);
+
+            // 🔥 HANDLE ERROR DARI API
+            if ($response->failed()) {
+                return response()->json([
+                    'error' => 'Gagal ambil ongkir',
+                    'detail' => $result
+                ], 500);
+            }
+
+            if (!isset($result['rajaongkir']['results'][0]['costs'])) {
+                return response()->json([
+                    'error' => 'Data ongkir tidak ditemukan',
+                    'response' => $result
+                ], 500);
+            }
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Exception: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
