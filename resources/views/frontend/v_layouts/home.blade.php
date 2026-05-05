@@ -305,6 +305,7 @@ use Illuminate\Support\Str;
 </script>
 
 <script>
+    let selectedOngkir = 0; // variabel global untuk menyimpan ongkir yang dipilih
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.add-to-cart').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -379,30 +380,52 @@ use Illuminate\Support\Str;
 
                 html += `
                     <hr>
-                    <!-- PILIH PENGIRIMAN -->
-                    <div class="card p-2 mb-2">
-                        <small class="fw-bold">Pilih Pengiriman</small>
-                        <select id="city" class="form-control form-control-sm mb-2">
-                            <option value="114">Jakarta</option>
-                            <option value="501">Yogyakarta</option>
-                            <option value="419">Bandung</option>
-                        </select>
-                        <select id="courier" class="form-control form-control-sm mb-2">
-                            <option value="jne">JNE</option>
-                            <option value="pos">POS</option>
-                            <option value="tiki">TIKI</option>
-                        </select>
-                        <button onclick="cekOngkir(${total})" class="btn btn-dark btn-sm w-100">
-                            Cek Ongkir
+                    <div class="card p-3 mb-2 shadow-sm">
+                        <h6 class="fw-bold mb-3">Informasi Pengiriman</h6>
+                        <!-- Baris 1: Provinsi & Kota -->
+                        <div class="row g-2 mb-2">
+                            <div class="col-md-6">
+                                <label class="small fw-semibold">Provinsi Tujuan</label>
+                                <select id="province" class="form-select form-select-sm" onchange="loadCities(this.value)">
+                                    <option value="">Pilih Provinsi</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-semibold">Kota Tujuan</label>
+                                <select id="city" class="form-select form-select-sm">
+                                    <option value="">Pilih Kota</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Baris 2: Kurir & Alamat -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label class="small fw-semibold">Kurir</label>
+                                <select id="courier" class="form-select form-select-sm">
+                                    <option value="jne">JNE</option>
+                                    <option value="pos">POS</option>
+                                    <option value="tiki">TIKI</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-semibold">Alamat Lengkap</label>
+                                <textarea id="alamat" class="form-control form-control-sm" rows="1" placeholder="Nama jalan, RT/RW"></textarea>
+                            </div>
+                        </div>
+                        <button onclick="cekOngkir(${total})" class="btn btn-black bg-primary text-white btn-sm w-100 fw-bold">
+                            Cek Biaya Ongkir
                         </button>
                         <div id="ongkir-result" class="mt-2"></div>
                     </div>
-                    <h5>Total: Rp <span id="total">${total}</span></h5>
-                    <button class="btn btn-success w-100 mt-2 btn-checkout">Checkout</button>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <h5 class="mb-0">Grand Total:</h5>
+                        <h5 class="fw-bold text-pink">Rp <span id="total">${total}</span></h5>
+                    </div>
+                    <button class="btn btn-success w-100 mt-3 py-2 fw-bold btn-checkout">Checkout Sekarang</button>
                 `;
+                document.getElementById('cartContent').innerHTML = html;
+                loadProvinces();
             }
-
-            document.getElementById('cartContent').innerHTML = html;
             document.getElementById('cart-count').innerText = totalQty;
             
             document.querySelectorAll('.btn-checkout').forEach(btn => {
@@ -445,6 +468,18 @@ use Illuminate\Support\Str;
             return;
         }
 
+        let provinceEl = document.getElementById('province');
+        let cityEl = document.getElementById('city');
+        let courierEl = document.getElementById('courier');
+
+        let alamat = document.getElementById('alamat').value;
+
+
+        if (!alamat || !province || !city) {
+            alert("Lengkapi alamat dulu!");
+            return;
+        }
+
         fetch('/checkout', {
             method: 'POST',
             credentials: 'same-origin',
@@ -453,7 +488,11 @@ use Illuminate\Support\Str;
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             body: JSON.stringify({
-                ongkir: selectedOngkir
+                ongkir: selectedOngkir,
+                alamat: alamat,
+                province: provinceEl.options[provinceEl.selectedIndex].text, // 🔥 kirim nama provinsi
+                city: cityEl.options[cityEl.selectedIndex].text, // 🔥 kirim nama kota
+                courier: courierEl.value // 🔥 kirim nama kurir
             })
         })
         .then(res => {
@@ -558,13 +597,67 @@ use Illuminate\Support\Str;
             alert("Gagal ambil ongkir! Cek koneksi / API");
         });
     }
+
+    function loadProvinces() {
+        setTimeout(() => {
+            let select = document.getElementById('province');
+
+            if (!select) {
+                console.error("Dropdown province TIDAK ditemukan!");
+                return;
+            }
+
+            fetch('/get-provinces')
+                .then(res => res.json())
+                .then(data => {
+                    console.log("PROVINCES:", data);
+
+                    if (!Array.isArray(data)) return;
+
+                    let opt = '<option value="">Pilih Provinsi</option>';
+
+                    data.forEach(p => {
+                        // 🔥 FIX DI SINI
+                        opt += `<option value="${p.id}">${p.name}</option>`;
+                    });
+
+                    select.innerHTML = opt;
+                })
+                .catch(err => {
+                    console.error("Gagal load provinces:", err);
+                });
+
+        }, 300);
+    }
+
+    function loadCities(provinceId) {
+        if (!provinceId) return;
+        console.log("PROVINCE ID:", provinceId);
+        fetch(`/get-cities/${provinceId}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log("CITIES:", data);
+                if (!Array.isArray(data)) return;
+                let opt = '<option value="">Pilih Kota</option>';
+                data.forEach(c => {
+                    // 🔥 FIX DI SINI
+                    opt += `<option value="${c.id}">${c.name}</option>`;
+                });
+                document.getElementById('city').innerHTML = opt;
+            })
+            .catch(err => {
+                console.error("Gagal load cities:", err);
+            });
+    }
+
+
     function pilihOngkir(ongkir, totalBarang) {
         selectedOngkir = ongkir;
-        let total = totalBarang + ongkir;
-        document.getElementById('total').innerText = total;
+        let total = parseInt(totalBarang) + parseInt(ongkir);
+        document.getElementById('total').innerText = total.toLocaleString('id-ID');
         document.getElementById('ongkir-result').innerHTML += `
-            <div class="alert alert-success mt-2 p-2">
-                Ongkir dipilih: Rp ${ongkir}
+            <div class="alert alert-success mt-2 p-2 small">
+                <i class="bi bi-check-circle-fill"></i> Ongkir dipilih: <b>Rp ${ongkir.toLocaleString('id-ID')}</b>
             </div>
         `;
     }

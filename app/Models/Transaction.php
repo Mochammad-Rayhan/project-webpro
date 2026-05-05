@@ -14,6 +14,10 @@ class Transaction extends Model
         'id_admin',
         'total',
         'status',
+        'alamat',
+        'province',
+        'city',
+        'courier',
     ];  
 
     public function user()

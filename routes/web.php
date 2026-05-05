@@ -76,4 +76,6 @@ Route::post('/cart/clear', function() {
 Route::get('/checkout/success/{order_id}', [CartController::class, 'success'])->name('checkout.success')->middleware('auth');
 
 // Raja Ongkir
+Route::get('/get-provinces', [CartController::class, 'getProvinces']);
+Route::get('/get-cities/{province_id}', [CartController::class, 'getCities']);
 Route::post('/cek-ongkir', [CartController::class, 'cekOngkir']);

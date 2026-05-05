@@ -116,6 +116,10 @@ class CartController extends Controller
             'id_admin' => $user->id_admin,
             'total' => $grandTotal,
             'status' => 'pending',
+            'alamat' => $request->alamat,
+            'province' => $request->province,
+            'city' => $request->city,
+            'courier' => $request->courier,
         ]);
 
         foreach ($cart as $item) {
@@ -195,13 +199,56 @@ class CartController extends Controller
         return view('frontend.success', compact('transaction'));
     }
 
+    public function getProvinces()
+    {
+        $response = Http::withHeaders([
+            'key' => env('RAJAONGKIR_API_KEY')
+        ])->get('https://rajaongkir.komerce.id/api/v1/destination/province');
+
+        $data = $response->json()['data'] ?? [];
+
+        $result = array_map(function($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['name']
+            ];
+        }, $data);
+
+        return response()->json($result);
+    }
+
+    public function getCities($province_id)
+    {
+        $response = Http::withHeaders([
+            'key' => env('RAJAONGKIR_API_KEY')
+        ])->get('https://rajaongkir.komerce.id/api/v1/destination/city/' . $province_id);
+
+        // DEBUG
+        if (!$response->successful()) {
+            return response()->json([
+                'error' => 'API gagal',
+                'status' => $response->status(),
+                'body' => $response->body()
+            ], 500);
+        }
+        $data = $response->json()['data'] ?? [];
+        $result = array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['name'],
+            ];
+        }, $data);
+
+        return response()->json($result);
+    }   
+
     public function cekOngkir(Request $request)
     {
         try {
             $response = Http::asForm()->withHeaders([
                 'key' => env('RAJAONGKIR_API_KEY')
             ])->post('https://rajaongkir.komerce.id/api/v1/calculate/district/domestic-cost', [
-                'origin' => 501,
+                'origin' => 502,
                 'destination' => $request->city,
                 'weight' => 1000,
                 'courier' => $request->courier
