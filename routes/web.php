@@ -10,6 +10,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\BarangkeluarController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\CartController;
 
@@ -79,3 +80,8 @@ Route::get('/checkout/success/{order_id}', [CartController::class, 'success'])->
 Route::get('/get-provinces', [CartController::class, 'getProvinces']);
 Route::get('/get-cities/{province_id}', [CartController::class, 'getCities']);
 Route::post('/cek-ongkir', [CartController::class, 'cekOngkir']);
+
+// Riwayat Pesanan
+Route::get('/riwayat', [OrderController::class, 'riwayat'])
+    ->middleware('auth')
+    ->name('orders.riwayat');

@@ -96,7 +96,7 @@ use Illuminate\Support\Str;
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Pesanan Saya</a></li>
+                                <li><a class="dropdown-item" href="{{ route('orders.riwayat') }}">Pesanan Saya</a></li>
                                 <li>
                                     <form action="{{ route('backend.logout') }}" method="POST">
                                         @csrf
