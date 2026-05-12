@@ -617,198 +617,6 @@ use Illuminate\Support\Str;
         </div>
     </section>
 
-<<<<<<< HEAD
-    <!-- Testimoni Start -->
-    <section class="section-padding py-5" id="testimoni" style="background-color: #fddae4;">
-        <div class="container position-relative">
-            <!-- Heading -->
-            <div class="text-center mb-4">
-                <h1 class="fw-bold display-5 mb-3" style="color: #6b4a3a;">
-                    Testimoni Pengguna
-                </h1>
-                <p class="text-muted fs-6 mx-auto mb-0" style="max-width: 650px;">
-                    Pendapat pelanggan yang telah menggunakan produk dan layanan dari Beautycare.
-                </p>
-            </div>
-            <!-- Carousel -->
-            <div id="testimonialCarousel"
-                class="carousel slide"
-                data-bs-ride="carousel"
-                data-bs-interval="4000">
-                <!-- Indicators -->
-                <div class="carousel-indicators position-relative mb-4 mt-3">
-                    <button type="button"
-                        data-bs-target="#testimonialCarousel"
-                        data-bs-slide-to="0"
-                        class="active bg-dark"
-                        style="width:10px;height:10px;border-radius:50%;">
-                    </button>
-                    <button type="button"
-                        data-bs-target="#testimonialCarousel"
-                        data-bs-slide-to="1"
-                        class="bg-dark"
-                        style="width:10px;height:10px;border-radius:50%;">
-                    </button>
-                </div>
-                <!-- Carousel Inner -->
-                <div class="carousel-inner">
-                    <!-- ================= SLIDE 1 ================= -->
-                    <div class="carousel-item active">
-                        <div class="row g-4">
-                            <!-- CARD 1 -->
-                            <div class="col-lg-6">
-                                <div class="card border-0 shadow-sm h-100 bg-white p-4"
-                                    style="border-radius: 16px;">
-                                    <!-- Header -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <img src="https://randomuser.me/api/portraits/women/44.jpg"
-                                            alt="user"
-                                            class="rounded-circle me-3"
-                                            width="65"
-                                            height="65"
-                                            style="object-fit: cover;">
-                                        <div>
-                                            <h5 class="fw-semibold mb-1">
-                                                Aulia Rahma
-                                            </h5>
-                                            <div class="text-warning small mb-1">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                            </div>
-                                            <small class="text-muted">
-                                                Pelanggan Beautycare
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <!-- Isi -->
-                                    <p class="text-muted mb-0 lh-lg">
-                                        Produknya original dan kualitasnya bagus banget.
-                                        Pengiriman cepat dan packaging aman.
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- CARD 2 -->
-                            <div class="col-lg-6">
-                                <div class="card border-0 shadow-sm h-100 bg-white p-4"
-                                    style="border-radius: 16px;">
-                                    <!-- Header -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <img src="https://randomuser.me/api/portraits/women/65.jpg"
-                                            alt="user"
-                                            class="rounded-circle me-3"
-                                            width="65"
-                                            height="65"
-                                            style="object-fit: cover;">
-                                        <div>
-                                            <h5 class="fw-semibold mb-1">
-                                                Nabila Putri
-                                            </h5>
-                                            <div class="text-warning small mb-1">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i>
-                                            </div>
-                                            <small class="text-muted">
-                                                Verified Buyer
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <!-- Isi -->
-                                    <p class="text-muted mb-0 lh-lg">
-                                        Skincare di Beautycare cocok untuk kulit sensitif saya.
-                                        Websitenya clean dan nyaman digunakan.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ================= SLIDE 2 ================= -->
-                    <div class="carousel-item">
-                        <div class="row g-4">
-                            <!-- CARD 3 -->
-                            <div class="col-lg-6">
-                                <div class="card border-0 shadow-sm h-100 bg-white p-4"
-                                    style="border-radius: 16px;">
-                                    <!-- Header -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <img src="https://randomuser.me/api/portraits/men/32.jpg"
-                                            alt="user"
-                                            class="rounded-circle me-3"
-                                            width="65"
-                                            height="65"
-                                            style="object-fit: cover;">
-                                        <div>
-                                            <h5 class="fw-semibold mb-1">
-                                                Fajar Nugraha
-                                            </h5>
-                                            <div class="text-warning small mb-1">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                            </div>
-                                            <small class="text-muted">
-                                                Top Customer
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <!-- Isi -->
-                                    <p class="text-muted mb-0 lh-lg">
-                                        Produknya lengkap dan harga masih terjangkau.
-                                        Customer service juga cepat dan ramah.
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- CARD 4 -->
-                            <div class="col-lg-6">
-                                <div class="card border-0 shadow-sm h-100 bg-white p-4"
-                                    style="border-radius: 16px;">
-
-                                    <!-- Header -->
-                                    <div class="d-flex align-items-center mb-3">
-
-                                        <img src="https://randomuser.me/api/portraits/women/33.jpg"
-                                            alt="user"
-                                            class="rounded-circle me-3"
-                                            width="65"
-                                            height="65"
-                                            style="object-fit: cover;">
-
-                                        <div>
-                                            <h5 class="fw-semibold mb-1">
-                                                Salsa Anindya
-                                            </h5>
-
-                                            <div class="text-warning small mb-1">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star"></i>
-                                            </div>
-
-                                            <small class="text-muted">
-                                                Happy Customer
-                                            </small>
-                                        </div>
-
-                                    </div>
-
-                                    <!-- Isi -->
-                                    <p class="text-muted mb-0 lh-lg">
-                                        Beautycare jadi tempat favorit saya beli skincare.
-                                        Checkout mudah dan tampilannya modern.
-                                    </p>
-
-                                </div>
-
-=======
     <!-- TESTIMONI -->
     <section class="section-padding testimonial-section" id="testimoni">
         <div class="container">
@@ -938,7 +746,6 @@ use Illuminate\Support\Str;
                                     <h6 class="testimonial-name">Basil Haliwand</h6>
                                     <small class="testimonial-role">Customer</small>
                                 </div>
->>>>>>> 6f7152ea336e22ec2637a7ff6e091889d6531fa4
                             </div>
 
                         </div>
@@ -947,45 +754,6 @@ use Illuminate\Support\Str;
 
                 </div>
 
-<<<<<<< HEAD
-                <!-- BUTTON PREV -->
-                <button class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#testimonialCarousel"
-                    data-bs-slide="prev"
-                    style="width: auto; left: -65px;">
-
-                    <div class="bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center"
-                        style="width:48px; height:48px;">
-
-                        <i class="bi bi-chevron-left text-dark fs-5"></i>
-
-                    </div>
-                </button>
-
-                <!-- BUTTON NEXT -->
-                <button class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#testimonialCarousel"
-                    data-bs-slide="next"
-                    style="width: auto; right: -65px;">
-
-                    <div class="bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center"
-                        style="width:48px; height:48px;">
-
-                        <i class="bi bi-chevron-right text-dark fs-5"></i>
-
-                    </div>
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-     <!-- Testimoni End -->
-
-=======
             </div>
         </div>
     </section>
@@ -1036,7 +804,6 @@ use Illuminate\Support\Str;
             </div>
         </div>
     </section>
->>>>>>> 6f7152ea336e22ec2637a7ff6e091889d6531fa4
 
     <!-- Modalbox -->
     <div class="modal fade" id="productModal" tabindex="-1">
