@@ -13,6 +13,8 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\CartController;
+use App\Http\Controllers\RegisterController;
+
 
 
 /*
@@ -39,6 +41,12 @@ use App\Http\Controllers\frontend\CartController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/', [HomeController::class, 'producthome'])->name('home');
+
+Route::get('backend/register', [RegisterController::class, 'index'])
+    ->name('register');
+
+Route::post('backend/register', [RegisterController::class, 'store'])
+    ->name('register.store');
 
 Route::get('backend/beranda' , [BerandaController::class , 'berandaBackend'])->name('backend.beranda');
 Route::get('backend/login' , [LoginController::class , 'loginBackend'])->name('backend.login');
@@ -85,3 +93,9 @@ Route::post('/cek-ongkir', [CartController::class, 'cekOngkir']);
 Route::get('/riwayat', [OrderController::class, 'riwayat'])
     ->middleware('auth')
     ->name('orders.riwayat');
+
+
+// Produk
+Route::get('/produk', [ProdukController::class, 'list'])->name('produk.list');
+Route::get('/produk/{id}', [ProdukController::class, 'detail'])
+    ->name('produk.detail');

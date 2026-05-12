@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Produk;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $products = Produk::orderBy('updated_at', 'desc')->take(3)->get();
-        $produkTerbaru = Produk::orderBy('updated_at', 'desc')->take(7)->get();
+        $products = Produk::latest()->take(3)->get(); // best seller
+        $produkTerbaru = Produk::latest()->take(4)->get(); // terbaru (biar gak kepenuhan)
 
         return view('frontend.v_layouts.home', compact('products', 'produkTerbaru'));
     }
-
 }

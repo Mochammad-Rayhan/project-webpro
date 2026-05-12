@@ -20,16 +20,33 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->status == 0) {
+
+            $user = Auth::user();
+
+            // cek status user
+            if ($user->status == 0) {
                 Auth::logout();
+
                 return back()->with('error', 'User belum aktif');
             }
+
+            // regenerate session
             $request->session()->regenerate();
+
+            // role admin
+            if ($user->role == 1) {
+                return redirect()->route('backend.beranda');
+            }
+
+            // role user/pengguna
             return redirect()->route('home');
         }
-        return back()->with('error', 'Login Gagal');
+
+        return back()->with('error', 'Email atau Password salah');
     }
+
 
     public function logoutBackend()
     {
