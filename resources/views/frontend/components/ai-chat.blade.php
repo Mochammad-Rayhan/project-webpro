@@ -497,7 +497,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 </h6>
 
                 <div class="header-status">
-                    Online sekarang ✨
+                    Online sekarang
                 </div>
             </div>
 
@@ -639,7 +639,6 @@ async function sendMessage(){
 
                 let price = parseInt(product.harga_satuan || product.price) || 0;
 
-                // ✅ FIX GAMBAR
                 let image = 'https://via.placeholder.com/90?text=No+Image';
                     let productImage =
                         product.image ||
