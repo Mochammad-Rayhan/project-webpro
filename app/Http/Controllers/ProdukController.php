@@ -145,4 +145,47 @@ class ProdukController extends Controller
         $produk->delete();
         return redirect()->route('backend.produk.index')->with('success' , 'Data berhasil dihapus');
     }
+
+    public function list(Request $request)
+    {
+        $query = Produk::query();
+
+        // SEARCH
+        if($request->search){
+            $query->where('nama_produk', 'like', '%' . $request->search . '%');
+        }
+
+        // FILTER KATEGORI
+        if($request->kategori){
+            $query->where('kode', $request->kategori);
+        }
+
+        $produkTerbaru = $query->latest()->get();
+
+        // ambil kategori
+        $kategori = Kategori::all();
+
+        return view('frontend.v_produk.list', compact(
+            'produkTerbaru',
+            'kategori'
+        ));
+    }
+
+    public function detail($id)
+    {
+        $produk = Produk::findOrFail($id);
+
+        // rekomendasi produk serupa
+        $rekomendasi = Produk::where('kode', $produk->kode)
+            ->where('id_produk', '!=', $produk->id_produk)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('frontend.v_produk.detail', compact(
+            'produk',
+            'rekomendasi'
+        ));
+    }
+        
 }
