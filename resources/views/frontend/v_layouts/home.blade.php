@@ -74,7 +74,7 @@ use Illuminate\Support\Str;
             max-width: 80%;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        
+
                 /* TESTIMONI STYLE */
         .testimonial-section {
             background: #f5f5f5;
@@ -416,7 +416,7 @@ use Illuminate\Support\Str;
         <div class="container d-flex align-items-center justify-content-between">
 
             <!-- KIRI (Logo) -->
-            <a class="navbar-brand text-white fs-3 fw-bold" href="#">Beautycare</a>
+            <a class="navbar-brand text-white fs-3 fw-bold" href="#">Beautycaree</a>
 
             <!-- BUTTON TOGGLER (mobile) -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
@@ -449,10 +449,10 @@ use Illuminate\Support\Str;
                         <div class="dropdown">
                             <button class="btn btn-light d-flex align-items-center gap-2 dropdown-toggle" data-bs-toggle="dropdown">
                                 {{-- FOTO PROFIL --}}
-                                <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" 
-                                    alt="user" 
-                                    width="25" 
-                                    height="25" 
+                                <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}"
+                                    alt="user"
+                                    width="25"
+                                    height="25"
                                     class="rounded-circle">
                                 {{-- NAMA USER --}}
                                 <span style="font-size: 13px;">{{ Auth::user()->nama }}</span>
@@ -469,7 +469,7 @@ use Illuminate\Support\Str;
                             </ul>
                         </div>
                     @else
-                        <a href="{{ route('backend.login') }}" class="btn btn-light fw-semibold">Login</a>    
+                        <a href="{{ route('backend.login') }}" class="btn btn-light fw-semibold">Login</a>
                     @endif
                 </div>
             </div>
@@ -542,8 +542,8 @@ use Illuminate\Support\Str;
                 <!-- Gambar -->
                 <div class="col-md-6 mb-4 mb-md-0">
                     <div class="position-relative">
-                        <img src="https://images.unsplash.com/photo-1601070846144-6be3aad73f7b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                            class="img-fluid rounded-4 shadow-sm about-img" 
+                        <img src="https://images.unsplash.com/photo-1601070846144-6be3aad73f7b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="img-fluid rounded-4 shadow-sm about-img"
                             alt="About Beautycare">
                         <!-- shadow layer belakang -->
                         <div class="about-shadow"></div>
@@ -595,15 +595,15 @@ use Illuminate\Support\Str;
                             </div>
                             <div class="d-flex gap-2 p-3">
                                 <!-- Detail kecil -->
-                                <button 
+                                <button
                                     class="btn btn-outline-secondary btn-detail"
                                     data-bs-toggle="modal"
                                     data-bs-target="#productModal"
                                     data-title="{{ $item->nama_produk }}"
                                     data-price="Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}"
                                     data-description="{{ $item->description }}"
-                                    data-image="{{ Str::startsWith($item->image, 'http') 
-                                        ? $item->image 
+                                    data-image="{{ Str::startsWith($item->image, 'http')
+                                        ? $item->image
                                         : asset('storage/' . $item->image) }}"
                                 >
                                     <i class="bi bi-eye"></i>
@@ -627,7 +627,7 @@ use Illuminate\Support\Str;
                 </h2>
 
                 <p class="text-muted mt-3">
-                    Kepuasan pelanggan adalah prioritas utama kami 
+                    Kepuasan pelanggan adalah prioritas utama kami
                 </p>
             </div>
 
