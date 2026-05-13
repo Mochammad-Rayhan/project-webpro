@@ -501,7 +501,7 @@ use Illuminate\Support\Str;
         <div class="container text-center">
             <!-- Judul -->
             <h2 class="fw-bold display-5" style="color: #6b4a3a;">
-                Produk paling laris manis
+                Produk paling laris manis banget
             </h2>
             <!-- Deskripsi -->
             <p class="mt-3 text-muted">
