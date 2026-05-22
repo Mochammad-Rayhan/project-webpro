@@ -104,9 +104,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
+
         $rules = [
             'nama' => 'required|max:255',
             'email' => 'required|max:255|email|unique:user,email,' . $user->id_admin . ',id_admin',
@@ -115,42 +117,145 @@ class UserController extends Controller
             'password' => 'nullable|min:4|confirmed',
             'foto' => 'image|mimes:jpeg,jpg,png,gif|file|max:1024',
         ];
+
         $messages = [
-             'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
+            'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
             'foto.max' => 'Ukuran file gambar maksimal adalah 1024 KB.'
         ];
 
         if ($request->email != $user->email) {
             $rules['email'] = 'required|max:255|email|unique:user';
         }
+
         $validatedData = $request->validate($rules, $messages);
+
+        // upload foto
         if ($request->file('foto')) {
-            // Hapus gambar lama
+
+            // hapus foto lama
             if ($user->foto) {
                 $oldImagePath = public_path('storage/img-user/') . $user->foto;
+
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
             }
-            $file = $request->file('foto');
-            $extension = $file->getClientOriginalExtension();
-            $originalFileName = date('YmdHis') . '_' . uniqid() . '.' . $extension;
-            $directory = 'storage/img-user/';
-            // Simpan gambar dengan ukuran yang ditentukan
-            ImageHelper::uploadAndResize($file, $directory, $originalFileName, 385, 400);
-            // null (jika tinggi otomatis)
 
-            // Simpan nama file asli di database
+            $file = $request->file('foto');
+
+            $extension = $file->getClientOriginalExtension();
+
+            $originalFileName =
+                date('YmdHis') . '_' . uniqid() . '.' . $extension;
+
+            $directory = 'storage/img-user/';
+
+            ImageHelper::uploadAndResize(
+                $file,
+                $directory,
+                $originalFileName,
+                385,
+                400
+            );
+
             $validatedData['foto'] = $originalFileName;
         }
 
+        // PASSWORD
         if ($request->filled('password')) {
-            $validatedData['password'] = $request->password;
+
+            $validatedData['password'] =
+                Hash::make($request->password);
+
         } else {
+
             unset($validatedData['password']);
         }
+
         $user->update($validatedData);
-        return redirect()->route('backend.user.index')->with('Success' , 'Data berhasil diperbaharui');
+
+        return redirect()
+            ->route('backend.user.index')
+            ->with('success', 'Data berhasil diperbarui');
+    }
+
+
+    public function formPassword()
+    {
+        return view('frontend.v_profile.password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => [
+                'required',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/'
+            ],
+        ], [
+            'new_password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.'
+        ]);
+
+        $user = auth()->user();
+
+        // cek password lama
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('error', 'Password lama salah');
+        }
+
+        // update password (AMAN karena di model sudah "hashed")
+        $user->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with('success', 'Password berhasil diubah');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'nama' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:user,email,' . $user->id_admin . ',id_admin',
+            'hp' => 'nullable|min:10|max:13',
+            'alamat' => 'nullable',
+            'foto' => 'image|mimes:jpeg,jpg,png|max:1024',
+        ]);
+
+        $data = [
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'hp' => $request->hp ? $request->hp : '-',
+            'alamat' => $request->alamat,
+        ];
+
+        // upload foto
+        if ($request->file('foto')) {
+
+            // hapus foto lama
+            if ($user->foto) {
+                $oldPath = public_path('storage/img-user/' . $user->foto);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $file = $request->file('foto');
+
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+
+            $file->move(public_path('storage/img-user'), $filename);
+
+            $data['foto'] = $filename;
+        }
+
+        $user->update($data);
+
+        return back()->with('success', 'Profile berhasil diperbarui');
     }
 
     /**

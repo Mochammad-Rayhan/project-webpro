@@ -1,170 +1,332 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Pesanan</title>
+@extends('frontend.v_layouts.app')
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('content')
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    body{
+        background:#f5f6fa;
+        font-family:'Inter',sans-serif;
+    }
 
-    <style>
-        :root {
-            --brand-accent: #f98fae; 
-            --brand-accent-soft: #fff0f4; 
-            --surface: #ffffff;
-            --surface-2: #f8f9fc;
-            --border: #e8eaed;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --radius-sm: 8px;
-            --radius-lg: 16px;
-            --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    .profile-wrapper{
+        padding-top:120px;
+        padding-bottom:60px;
+        min-height:100vh;
+    }
+
+    .profile-card{
+        background:white;
+        border-radius:30px;
+        overflow:hidden;
+        box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .sidebar-profile{
+        background:#fff0f5;
+        min-height:100%;
+        padding:40px 25px;
+        border-right:1px solid #eee;
+    }
+
+    .profile-avatar{
+        width:100px;
+        height:100px;
+        object-fit:cover;
+        border-radius:50%;
+        border:5px solid #ff8fb1;
+    }
+
+    .menu-profile a{
+        display:block;
+        padding:12px 16px;
+        border-radius:14px;
+        text-decoration:none;
+        color:#555;
+        margin-bottom:10px;
+        transition:.2s;
+        font-weight:500;
+    }
+
+    .menu-profile a:hover,
+    .menu-profile a.active{
+        background:#ff8fb1;
+        color:white;
+    }
+
+    .logout-btn{
+        width:100%;
+        text-align:left;
+        padding:12px 16px;
+        border-radius:14px;
+        border:none;
+        background:transparent;
+        color:#555;
+        margin-bottom:10px;
+        transition:.2s;
+        font-weight:500;
+    }
+
+    .logout-btn:hover{
+        background:#ff8fb1;
+        color:white;
+    }
+
+    .content-area{
+        padding:50px;
+    }
+
+    .page-title{
+        font-weight:800;
+        color:#444;
+        margin-bottom:30px;
+    }
+
+    .orders-card{
+        border:1px solid #eee;
+        border-radius:20px;
+        overflow:hidden;
+    }
+
+    .orders-table{
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    .orders-table th{
+        background:#fafafa;
+        padding:16px;
+        font-weight:700;
+        border-bottom:1px solid #eee;
+    }
+
+    .orders-table td{
+        padding:16px;
+        border-bottom:1px solid #f1f1f1;
+    }
+
+    .order-id{
+        color:#ff5f8f;
+        font-weight:700;
+    }
+
+    .pagination-wrapper{
+        margin-top:25px;
+    }
+
+    @media(max-width:768px){
+
+        .content-area{
+            padding:25px;
         }
 
-        body {
-            background: var(--surface-2);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        .sidebar-profile{
+            border-right:none;
+            border-bottom:1px solid #eee;
         }
 
-        .page-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 48px 24px 80px;
+        .orders-table{
+            font-size:13px;
+        }
+    }
+
+    .btn-back-home{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:10px 18px;
+        border-radius:14px;
+        background:#fff0f5;
+        color:#ff5f8f;
+        text-decoration:none;
+        font-weight:600;
+        transition:.2s;
         }
 
-        .btn-back {
-            display: inline-flex;
-            padding: 7px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            text-decoration: none;
-            margin-bottom: 20px;
+    .btn-back-home:hover{
+        background:#ff8fb1;
+        color:white;
         }
 
-        .btn-back:hover {
-            background: var(--brand-accent-soft);
-            color: var(--brand-accent);
-        }
+    .top-action{
+        display:flex;
+        align-items:center;
+    }
 
-        .orders-card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
+    .btn-back-home{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:10px 18px;
+        border-radius:14px;
+        background:#fff;
+        color:#ff5f8f;
+        text-decoration:none;
+        font-weight:600;
+        border:1px solid #f3d4df;
+        box-shadow:0 4px 12px rgba(0,0,0,0.04);
+        transition:.2s;
+    }
 
-        .orders-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    .btn-back-home:hover{
+        background:#ff8fb1;
+        color:white;
+    }
+</style>
 
-        .orders-table th {
-            background: #fafafa;
-            border-bottom: 2px solid var(--border);
-            padding: 14px 20px;
-        }
+<div class="container profile-wrapper">
 
-        .orders-table td {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-        }
+    <div class="top-action mb-3">
+        <a href="{{ url('/') }}" class="btn-back-home">
+            <i class="bi bi-arrow-left"></i>
+            Kembali ke Home
+        </a>
+    </div>
 
-        .order-id {
-            color: var(--brand-accent);
-            font-weight: 600;
-        }
+    <div class="profile-card">
 
-        /* 🔥 Pagination Styling */
-        .pagination-wrapper {
-            margin-top: 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
+        <div class="row g-0">
 
-        .pagination-info { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+            <!-- SIDEBAR -->
+            <div class="col-lg-3">
 
-        .pagination-wrapper nav > div:first-child,
-        .pagination-wrapper nav > div:last-child > div:first-child {
-            display: none !important;
-        }
+                <div class="sidebar-profile text-center">
 
-        .pagination-info {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
+                    <img 
+                        src="{{ asset('storage/img-user/' . Auth::user()->foto) }}"
+                        class="profile-avatar mb-3"
+                    >
 
-    </style>
-</head>
-<body>
+                    <h5 class="fw-bold">
+                        {{ Auth::user()->nama }}
+                    </h5>
 
-<div class="page-wrapper">
+                    <small class="text-muted">
+                        {{ Auth::user()->email }}
+                    </small>
 
-    <a href="{{ url('/') }}" class="btn-back">← Kembali</a>
+                    <div class="menu-profile mt-5 text-start">
 
-    <h4>Riwayat Pesanan</h4>
+                        <a href="{{ route('profile') }}">
+                            <i class="bi bi-person"></i>
+                            Profile
+                        </a>
 
-    @if(isset($orders) && $orders->count() > 0)
+                        <a href="{{ route('orders.riwayat') }}"
+                        class="active">
+                            <i class="bi bi-bag"></i>
+                            Pesanan
+                        </a>
 
-        <div class="orders-card">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Order</th>
-                        <th>Tanggal</th>
-                        <th>Total</th>
-                        <th>Lokasi</th>
-                        <th>Kurir</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($orders as $i => $order)
-                    <tr>
-                        <td>{{ $orders->firstItem() + $i }}</td>
-                        <td class="order-id">#{{ $order->order_id }}</td>
-                        <td>{{ $order->created_at->format('d M Y') }}</td>
-                        <td>Rp {{ number_format($order->total,0,',','.') }}</td>
-                        <td>{{ $order->city }}, {{ $order->province }}</td>
-                        <td>{{ $order->courier }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                        {{-- <a href="{{ route('password.form') }}"
+                        class="{{ request()->routeIs('password.form') ? 'active' : '' }}">
+                            <i class="bi bi-shield-lock"></i>
+                            Password
+                        </a> --}}
 
-        <!-- 🔥 FIXED PAGINATION -->
-        <div class="pagination-wrapper">
-            <div class="pagination-info">
-                Showing 
-                <b>{{ $orders->firstItem() }}</b> 
-                to 
-                <b>{{ $orders->lastItem() }}</b> 
-                of 
-                <b>{{ $orders->total() }}</b> 
-                results
+                        <form action="{{ route('backend.logout') }}" method="POST">
+                            @csrf
+
+                            <button type="submit" class="logout-btn">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Logout
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            {{ $orders->appends(request()->query())->links('pagination::bootstrap-5') }}
+            <!-- CONTENT -->
+            <div class="col-lg-9">
+
+                <div class="content-area">
+
+                    <h2 class="page-title">
+                        Riwayat Pesanan
+                    </h2>
+
+                    @if(isset($orders) && $orders->count() > 0)
+
+                        <div class="orders-card">
+
+                            <table class="orders-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Order</th>
+                                        <th>Tanggal</th>
+                                        <th>Total</th>
+                                        <th>Lokasi</th>
+                                        <th>Kurir</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach($orders as $i => $order)
+
+                                    <tr>
+
+                                        <td>
+                                            {{ $orders->firstItem() + $i }}
+                                        </td>
+
+                                        <td class="order-id">
+                                            #{{ $order->order_id }}
+                                        </td>
+
+                                        <td>
+                                            {{ $order->created_at->format('d M Y') }}
+                                        </td>
+
+                                        <td>
+                                            Rp {{ number_format($order->total,0,',','.') }}
+                                        </td>
+
+                                        <td>
+                                            {{ $order->city }},
+                                            {{ $order->province }}
+                                        </td>
+
+                                        <td>
+                                            {{ $order->courier }}
+                                        </td>
+
+                                    </tr>
+
+                                    @endforeach
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        <div class="pagination-wrapper">
+                            {{ $orders->links('pagination::bootstrap-5') }}
+                        </div>
+
+                    @else
+
+                        <div class="orders-card p-5 text-center">
+                            <h6 class="mb-0">
+                                Belum ada pesanan
+                            </h6>
+                        </div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
         </div>
 
-    @else
-        <div class="orders-card p-5 text-center">
-            <h6>Belum ada pesanan</h6>
-        </div>
-    @endif
+    </div>
 
 </div>
 
-</body>
-</html>
+@endsection

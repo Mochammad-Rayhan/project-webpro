@@ -409,6 +409,322 @@ use Illuminate\Support\Str;
                 transform: scale(1.05);
             }
 
+            .cart-sidebar{
+                width: 420px !important;
+                border-radius: 25px 0 0 25px;
+                overflow: hidden;
+                border: none;
+            }
+
+            /* HEADER */
+            .offcanvas-header{
+                padding: 22px 28px;
+                background: #fff;
+            }
+
+            .offcanvas-header h4{
+                font-size: 34px;
+                font-weight: 800;
+                color:#ff5f8f;
+            }
+
+            .offcanvas-header small{
+                color:#999;
+                font-size:14px;
+            }
+
+            /* BODY */
+            .offcanvas-body{
+                background:#fafafa;
+                padding:24px !important;
+            }
+
+            /* CARD ITEM */
+            .cart-item{
+                display:flex;
+                align-items:center;
+                gap:16px;
+                background:#fff;
+                border-radius:24px;
+                padding:18px;
+                margin-bottom:16px;
+                box-shadow:0 5px 20px rgba(0,0,0,.05);
+                transition:.2s;
+            }
+
+            .cart-item:hover{
+                transform:translateY(-2px);
+            }
+
+            .cart-img{
+                width:78px;
+                height:78px;
+                border-radius:18px;
+                object-fit:cover;
+                background:#f8f8f8;
+            }
+
+            /* TITLE */
+            .cart-item .fw-bold{
+                font-size:22px;
+                color:#222;
+                margin-bottom:8px;
+            }
+
+            /* PRICE */
+            .cart-price{
+                font-size:15px;
+                color:#777;
+            }
+
+            .cart-subtotal{
+                font-size:28px;
+                font-weight:800;
+                color:#111;
+            }
+
+            /* QTY */
+            .qty-box{
+                display:flex;
+                align-items:center;
+                gap:10px;
+            }
+
+            .cart-btn{
+                width:34px;
+                height:34px;
+                border:none;
+                border-radius:50%;
+                background:#ffe6ef;
+                color:#ff5f8f;
+                font-size:18px;
+                font-weight:700;
+                transition:.2s;
+            }
+
+            .cart-btn:hover{
+                background:#ff5f8f;
+                color:#fff;
+            }
+
+            .qty-number{
+                font-size:18px;
+                font-weight:600;
+            }
+
+            /* REMOVE */
+            .cart-remove{
+                width:42px;
+                height:42px;
+                border-radius:50%;
+                border:2px solid #ff5f8f;
+                background:#fff;
+                color:#ff5f8f;
+                transition:.2s;
+            }
+
+            .cart-remove:hover{
+                background:#ff5f8f;
+                color:white;
+            }
+
+            /* SHIPPING CARD */
+            .shipping-card{
+                background:#fff;
+                border-radius:24px;
+                padding:24px;
+                box-shadow:0 5px 20px rgba(0,0,0,.04);
+                border:none;
+            }
+
+            .shipping-card h6{
+                font-size:26px;
+                font-weight:800;
+                margin-bottom:20px;
+            }
+
+            .form-select,
+            .form-control{
+                border-radius:14px;
+                border:1px solid #eee;
+                min-height:46px;
+            }
+
+            .form-select:focus,
+            .form-control:focus{
+                box-shadow:none;
+                border-color:#ff8fb1;
+            }
+
+            /* BUTTON ONGKIR */
+            .btn-ongkir{
+                border:none;
+                border-radius:14px;
+                background:linear-gradient(135deg,#ff5f8f,#ff7ca6);
+                color:white;
+                font-weight:700;
+                height:48px;
+            }
+
+            /* TOTAL */
+            .cart-total{
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-top:25px;
+            }
+
+            .cart-total h5{
+                font-size:18px;
+            }
+
+            .cart-total-price{
+                font-size:34px;
+                font-weight:800;
+                color:#ff3b6d;
+            }
+
+            /* CHECKOUT */
+            .btn-checkout{
+                width:100%;
+                height:58px;
+                border:none;
+                border-radius:50px;
+                margin-top:20px;
+                background:linear-gradient(135deg,#ff8fb1,#ff5f8f);
+                color:white;
+                font-weight:700;
+                font-size:18px;
+                transition:.2s;
+            }
+
+            .btn-checkout:hover{
+                transform:translateY(-2px);
+            }
+
+            /* MOBILE FIX CART */
+            @media(max-width:768px){
+
+                .cart-sidebar{
+                    width:100% !important;
+                    border-radius:25px 25px 0 0;
+                }
+
+                /* HEADER */
+                .offcanvas-header{
+                    padding:16px 18px;
+                }
+
+                .cart-title{
+                    color:#ff5f8f;
+                    font-size:16px;
+                    font-weight:800;
+                }
+
+                .cart-subtitle{
+                    font-size:12px;
+                    color:#999;
+                }
+
+                /* BODY */
+                .offcanvas-body{
+                    padding:14px !important;
+                    background:#fafafa;
+                }
+
+                /* ITEM CARD */
+                .cart-item{
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    padding:14px;
+                    border-radius:18px;
+                    margin-bottom:12px;
+                    background:#fff;
+                    box-shadow:0 4px 15px rgba(0,0,0,.05);
+                }
+
+                /* IMAGE */
+                .cart-img{
+                    width:65px;
+                    height:65px;
+                    border-radius:14px;
+                    object-fit:cover;
+                }
+
+                /* TITLE */
+                .cart-item .fw-bold{
+                    font-size:16px;
+                    color:#222;
+                    margin-bottom:6px;
+                    line-height:1.4;
+                }
+
+                /* PRICE */
+                .cart-item small{
+                    font-size:13px;
+                }
+
+                .cart-item strong{
+                    font-size:16px;
+                }
+
+                /* QTY */
+                .cart-btn{
+                    width:30px;
+                    height:30px;
+                    font-size:15px;
+                    border-radius:50%;
+                }
+
+                /* DELETE */
+                .cart-remove{
+                    width:36px;
+                    height:36px;
+                }
+
+                /* SHIPPING */
+                .shipping-card{
+                    padding:18px;
+                    border-radius:18px;
+                }
+
+                .shipping-card h6{
+                    font-size:18px;
+                }
+
+                .form-select,
+                .form-control{
+                    min-height:42px;
+                    font-size:14px;
+                }
+
+                /* TOTAL */
+                .cart-total h5{
+                    font-size:15px;
+                }
+
+                .cart-total-price{
+                    font-size:24px;
+                    font-weight:800;
+                }
+
+                /* CHECKOUT */
+                .btn-checkout{
+                    height:50px;
+                    font-size:15px;
+                    border-radius:40px;
+                }
+            }.cart-title{
+                font-size:14px;
+                font-weight:600;
+                line-height:1.3;
+                display:-webkit-box;
+                -webkit-line-clamp:2;
+                -webkit-box-orient:vertical;
+                overflow:hidden;
+            }
+
     </style>
 </head>
 <body>
@@ -450,7 +766,7 @@ use Illuminate\Support\Str;
                             <button class="btn btn-light d-flex align-items-center gap-2 dropdown-toggle" data-bs-toggle="dropdown">
                                 {{-- FOTO PROFIL --}}
                                 <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" 
-                                    alt="user" 
+                                    alt="" 
                                     width="25" 
                                     height="25" 
                                     class="rounded-circle">
@@ -458,7 +774,7 @@ use Illuminate\Support\Str;
                                 <span style="font-size: 13px;">{{ Auth::user()->nama }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                                 <li><a class="dropdown-item" href="{{ route('orders.riwayat') }}">Pesanan Saya</a></li>
                                 <li>
                                     <form action="{{ route('backend.logout') }}" method="POST">
@@ -829,15 +1145,48 @@ use Illuminate\Support\Str;
         </div>
     </div>
 
-    <!-- sidebar -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar">
-        <div class="offcanvas-header">
-            <h5>Cart</h5>
-            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <!-- MODERN CART SIDEBAR -->
+    <div class="offcanvas offcanvas-end cart-sidebar" tabindex="-1" id="cartSidebar">
+
+        <!-- HEADER -->
+        <div class="offcanvas-header border-bottom px-4 py-3">
+
+            <div>
+                <h4 class="cart-title mb-0">
+                    <i class="bi bi-cart me-1"></i>
+                    Keranjang
+                </h4>
+
+                <small class="cart-subtitle">
+                    Produk pilihan kamu
+                </small>
+            </div>
+
+            <button class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
+
         </div>
-        <div class="offcanvas-body" id="cartContent">
-            <p>Belum ada barang</p>
+
+        <!-- BODY -->
+        <div class="offcanvas-body p-3" id="cartContent">
+
+            <div class="empty-cart">
+
+                <div class="empty-icon">
+                    <i class="bi bi-cart-x"></i>
+                </div>
+
+                <h5 class="fw-bold mt-4">
+                    Cart masih kosong
+                </h5>
+
+                <p class="text-muted small">
+                    Yuk tambahin skincare favorit kamu 💖
+                </p>
+
+            </div>
+
         </div>
+
     </div>
 
 <!-- Javascript -->
@@ -953,7 +1302,7 @@ use Illuminate\Support\Str;
 
                             <div class="flex-grow-1">
 
-                                <div class="fw-bold">
+                                <div class="cart-title">
                                     ${item.name}
                                 </div>
 

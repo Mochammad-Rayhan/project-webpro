@@ -99,3 +99,17 @@ Route::get('/riwayat', [OrderController::class, 'riwayat'])
 Route::get('/produk', [ProdukController::class, 'list'])->name('produk.list');
 Route::get('/produk/{id}', [ProdukController::class, 'detail'])
     ->name('produk.detail');
+
+
+// Profile
+Route::get('/profile', function () {
+    return view('frontend.v_profile.profile');
+})->name('profile');
+Route::post('/profile/update', [UserController::class, 'updateProfile'])
+    ->name('profile.update');
+
+// password
+Route::middleware('auth')->group(function () {
+    Route::get('/password', [UserController::class, 'formPassword'])->name('password.form');
+    Route::post('/password', [UserController::class, 'updatePassword'])->name('password.update');
+    });
