@@ -732,7 +732,7 @@ use Illuminate\Support\Str;
         <div class="container d-flex align-items-center justify-content-between">
 
             <!-- KIRI (Logo) -->
-            <a class="navbar-brand text-white fs-3 fw-bold" href="#">Beautycaree</a>
+            <a class="navbar-brand text-white fs-3 fw-bold" href="#">Beautycare</a>
 
             <!-- BUTTON TOGGLER (mobile) -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
